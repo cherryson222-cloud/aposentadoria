@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Planejamento de Aposentadoria | Dra. Letícia Soares</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy:       #0c1f3f;
+            --navy-light: #162e58;
+            --gold:       #b8963e;
+            --gold-hover: #a07c30;
+            --white:      #ffffff;
+            --gray:       #4b5563;
+            --bg-light:   #f8f9fb;
+            --radius-sm:  4px;
+            --dur: .4s;
+            --ease: cubic-bezier(.4,0,.2,1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--navy);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ── HERO ── */
+        .hero-section {
+            background: var(--navy);
+            color: var(--white);
+            padding: clamp(60px, 10vw, 100px) 0 40px;
+            text-align: center;
+        }
+
+        .sec-label {
+            display: block;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-size: .75rem;
+            margin-bottom: 12px;
+        }
+
+        .hero-section h1 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 20px; max-width: 900px; margin-inline: auto; }
+        .hero-section p { font-size: clamp(1rem, 2vw, 1.2rem); opacity: 0.9; max-width: 700px; margin: 0 auto 30px; }
+
+        /* ── MULTI-STEP FORM ── */
+        .form-section { padding: 40px 0 80px; }
+        .multi-step-box {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: clamp(25px, 5vw, 45px);
+            border-top: 5px solid var(--gold);
+        }
+
+        /* Progress Bar */
+        .progress-wrapper { margin-bottom: 35px; }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gray);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .progress-bar-bg { height: 4px; background: #eee; border-radius: 2px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--gold); width: 14.2%; transition: width var(--dur) var(--ease); }
+
+        /* Steps */
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn .5s var(--ease); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step h2 { font-size: 1.8rem; margin-bottom: 25px; color: var(--navy); }
+
+        /* Options */
+        .option-container { display: grid; gap: 12px; }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--dur) var(--ease);
+            font-weight: 500;
+        }
+        .option-label:hover { border-color: var(--gold); background: rgba(184,150,62,0.03); }
+
+        input[type="radio"] {
+            appearance: none;
+            width: 18px; height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        input[type="radio"]:checked { border-color: var(--gold); border-width: 5px; }
+        .option-label:has(input:checked) { border-color: var(--gold); background: rgba(184,150,62,0.05); }
+
+        /* Inputs de Texto */
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--gray); margin-bottom: 5px; }
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: 15px; margin-top: 35px; }
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--dur);
+        }
+        .btn-prev { background: #e5e7eb; color: var(--gray); }
+        .btn-next { background: var(--gold); color: var(--white); }
+        .btn-next:hover { background: var(--gold-hover); transform: translateY(-2px); }
+
+        /* Agradecimento */
+        #thanks-screen { display: none; text-align: center; }
+        .thanks-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; }
+        .btn-whatsapp { 
+            background: #25D366; 
+            color: white; 
+            text-decoration: none; 
+            display: inline-block; 
+            padding: 18px 30px; 
+            border-radius: 50px; 
+            margin-top: 25px; 
+            font-weight: 700;
+        }
+
+        .hidden { display: none; }
+        .site-footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 40px 0; text-align: center; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <div class="container">
+            <span class="sec-label">Planejamento Previdenciário Especializado</span>
+            <h1>Descubra quando você pode se aposentar e quanto vai receber, antes de cometer um erro irreversível</h1>
+            <p>Com a Reforma da Previdência, pedir sem planejamento pode custar anos e milhares de reais.</p>
+        </div>
+    </header>
+
+    <section class="form-section">
+        <div class="container">
+            <div class="multi-step-box">
+                
+                <div id="form-header">
+                    <div class="progress-wrapper">
+                        <div class="progress-info">
+                            <span id="step-text">Etapa 1 de 7</span>
+                            <span id="step-percent">14%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="pb-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="retirementForm">
+                    <div class="step active">
+                        <h2>Sua situação atual:</h2>
+                        <div class="option-container">
+                            <label class="option-label"><input type="radio" name="situacao" value="duvida"><span>Quero me aposentar, não sei se tenho direito</span></label>
+                            <label class="option-label"><input type="radio" name="situacao" value="negado"><span>INSS negou minha aposentadoria</span></label>
+                            <label class="option-label"><input type="radio" name="situacao" value="revisao"><span>Já aposentado, valor parece baixo</span></label>
+                            <label class="option-label"><input type="radio" name="situacao" value="planejar"><span>Quero planejar para o futuro</span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Sua idade atual:</h2>
+                        <div class="input-group">
+                            <input type="number" name="idade" class="form-control" placeholder="Digite sua idade" id="idade">
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Sexo:</h2>
+                        <div class="option-container">
+                            <label class="option-label"><input type="radio" name="sexo" value="F"><span>Feminino</span></label>
+                            <label class="option-label"><input type="radio" name="sexo" value="M"><span>Masculino</span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Tipo de contribuição predominante:</h2>
+                        <div class="option-container">
+                            <label class="option-label"><input type="radio" name="tipo" value="CLT"><span>Carteira assinada (CLT)</span></label>
+                            <label class="option-label"><input type="radio" name="tipo" value="MEI"><span>Autônomo/MEI/Individual</span></label>
+                            <label class="option-label"><input type="radio" name="tipo" value="Servidor"><span>Servidor público</span></label>
+                            <label class="option-label"><input type="radio" name="tipo" value="Misto"><span>Misto (vários tipos)</span></label>
+                            <label class="option-label"><input type="radio" name="tipo" value="Nunca"><span>Nunca contribuí</span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Tempo aproximado de contribuição:</h2>
+                        <div class="option-container">
+                            <label class="option-label"><input type="radio" name="tempo" value="0-10"><span>Menos de 10 anos</span></label>
+                            <label class="option-label"><input type="radio" name="tempo" value="10-20"><span>Entre 10 e 20 anos</span></label>
+                            <label class="option-label"><input type="radio" name="tempo" value="20-30"><span>Entre 20 e 30 anos</span></label>
+                            <label class="option-label"><input type="radio" name="tempo" value="30+"><span>Mais de 30 anos</span></label>
+                            <label class="option-label"><input type="radio" name="tempo" value="NaoSei"><span>Não sei ao certo</span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Trabalhou em atividade especial?</h2>
+                        <div class="option-container">
+                            <label class="option-label"><input type="radio" name="especial" value="Sim"><span>Sim (ruído, químicos, periculosidade)</span></label>
+                            <label class="option-label"><input type="radio" name="especial" value="Não"><span>Não</span></label>
+                            <label class="option-label"><input type="radio" name="especial" value="NaoSei"><span>Não sei o que é</span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h2>Dados de contato:</h2>
+                        <div class="input-group">
+                            <label>Seu Nome</label>
+                            <input type="text" class="form-control" placeholder="Nome completo" id="nome">
+                        </div>
+                        <div class="input-group">
+                            <label>WhatsApp</label>
+                            <input type="tel" class="form-control" placeholder="(00) 00000-0000" id="whatsapp">
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn btn-prev hidden" id="prevBtn">Voltar</button>
+                        <button type="button" class="btn btn-next" id="nextBtn">Fazer Meu Planejamento Gratuito</button>
+                    </div>
+                </form>
+
+                <div id="thanks-screen">
+                    <div id="qualificado" class="hidden">
+                        <span class="thanks-icon">🎉</span>
+                        <h2>Excelente! Grande possibilidade de direito ao benefício</h2>
+                        <p>Com base nas suas respostas, seu caso apresenta os requisitos necessários. Nossa equipe entrará em contato em até 24h para agendar sua análise.</p>
+                        <a href="https://wa.me/5511999999999?text=Olá! Fiz a análise no site e sou Qualificado para Aposentadoria. Gostaria de falar com a Dra. Letícia." class="btn-whatsapp">Falar Agora com a Dra. Letícia</a>
+                    </div>
+
+                    <div id="parcial" class="hidden">
+                        <span class="thanks-icon">📋</span>
+                        <h2>Recebemos suas informações!</h2>
+                        <p>Seu caso precisa de uma análise técnica detalhada devido às regras de transição. Entraremos em contato em até 24h para informar os próximos passos.</p>
+                    </div>
+
+                    <div id="negado" class="hidden">
+                        <span class="thanks-icon">💡</span>
+                        <h2>Obrigada pelo interesse!</h2>
+                        <p>No momento, não identificamos um enquadramento imediato para aposentadoria. Mas não se preocupe! Preparamos um guia completo para você se preparar para o futuro.</p>
+                        <a href="#" class="btn btn-next" style="display:inline-block; text-decoration:none; margin-top:20px;">Baixar Guia Completo</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Dra. Letícia Soares | Advogada Especialista em Direito Previdenciário</p>
+            <p>&copy; 2026 Dra. Letícia Soares. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.step');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const pbFill = document.getElementById('pb-fill');
+        const stepText = document.getElementById('step-text');
+        const retirementForm = document.getElementById('retirementForm');
+        const thanksScreen = document.getElementById('thanks-screen');
+
+        function updateProgress() {
+            const pct = ((currentStep + 1) / steps.length) * 100;
+            pbFill.style.width = pct + '%';
+            stepText.innerText = `Etapa ${currentStep + 1} de 7`;
+            document.getElementById('step-percent').innerText = Math.round(pct) + '%';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            // Validação simples
+            const inputs = steps[currentStep].querySelectorAll('input[required], input[type="radio"], input[type="number"], input[type="text"]');
+            
+            // Lógica de avanço
+            if (currentStep < steps.length - 1) {
+                // Se for rádio, checar se está marcado
+                const radios = steps[currentStep].querySelectorAll('input[type="radio"]');
+                if (radios.length > 0) {
+                    const checked = steps[currentStep].querySelector('input[type="radio"]:checked');
+                    if (!checked) { alert("Por favor, selecione uma opção."); return; }
+                }
+
+                steps[currentStep].classList.remove('active');
+                currentStep++;
+                steps[currentStep].classList.add('active');
+                prevBtn.classList.remove('hidden');
+                
+                if (currentStep === steps.length - 1) {
+                    nextBtn.innerText = "Finalizar Minha Análise";
+                }
+                updateProgress();
+            } else {
+                finishAnalysis();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            steps[currentStep].classList.remove('active');
+            currentStep--;
+            steps[currentStep].classList.add('active');
+            if (currentStep === 0) prevBtn.classList.add('hidden');
+            nextBtn.innerText = "Próximo";
+            updateProgress();
+        });
+
+        function finishAnalysis() {
+            const situacao = document.querySelector('input[name="situacao"]:checked').value;
+            const idade = parseInt(document.getElementById('idade').value);
+            const tempo = document.querySelector('input[name="tempo"]:checked').value;
+            const contribuicao = document.querySelector('input[name="tipo"]:checked').value;
+
+            retirementForm.style.display = 'none';
+            document.getElementById('form-header').style.display = 'none';
+            thanksScreen.style.display = 'block';
+
+            // LÓGICA DE QUALIFICAÇÃO INTELIGENTE
+            if (contribuicao === "Nunca" || (idade < 40 && tempo === "0-10")) {
+                document.getElementById('negado').classList.remove('hidden');
+            } 
+            else if (situacao === "negado" || situacao === "revisao" || tempo === "30+" || (idade >= 60)) {
+                document.getElementById('qualificado').classList.remove('hidden');
+            } 
+            else {
+                document.getElementById('parcial').classList.remove('hidden');
+            }
+        }
+
+        // Máscara de Telefone
+        document.getElementById('whatsapp').addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !val[2] ? val[1] : '(' + val[1] + ') ' + val[2] + (val[3] ? '-' + val[3] : '');
+        });
+    </script>
+</body>
+</html>
